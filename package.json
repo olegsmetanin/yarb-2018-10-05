@@ -12,6 +12,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
+    "publish": "node scripts/publish.js",
     "prettier:base": "prettier --parser typescript",
     "prettier:check": "npm run prettier:base -- --list-different \"src/**/*.{ts,tsx}\"",
     "prettier:write": "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\""
@@ -53,6 +54,7 @@
     "faker": "4.1.0",
     "file-loader": "0.11.2",
     "fs-extra": "3.0.1",
+    "gh-pages": "^2.0.1",
     "history": "4.7.2",
     "html-webpack-plugin": "2.29.0",
     "jest": "23.6.0",
