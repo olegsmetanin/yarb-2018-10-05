@@ -11,7 +11,6 @@ Features
 * [React-router](https://github.com/ReactTraining/react-router)
 * [Redux](https://github.com/reduxjs/redux) with [ducks-like pattern](https://github.com/erikras/ducks-modular-redux)
 * [Redux-thunk middleware](https://github.com/reduxjs/redux-thunk)
-*
 * [Linq.js-based inMemory DB](https://github.com/mihaifm/linq)
 * [Data generator Faker.js](https://github.com/marak/Faker.js)
 * CRUD UX
