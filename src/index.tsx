@@ -11,7 +11,7 @@ import { InMemoryFetch } from 'http/InMemoryFetch'
 import { Provider } from 'react-redux'
 import { Routes } from 'routes/routes'
 import { configureStore } from 'redux/configureStore'
-import createBrowserHistory from 'history/createBrowserHistory'
+import createHashHistory from 'history/createHashHistory'
 import { register as registerServiceWorker } from './registerServiceWorker'
 import { setAppConfig } from 'config/appConfig'
 
@@ -23,7 +23,12 @@ setAppConfig({
   // httpClient: new Fetch(),
   httpClient: new InMemoryFetch(new InMemoryDB()),
   // History API
-  history: createBrowserHistory()
+  history: createHashHistory({
+    basename: '', // The base URL of the app
+    hashType: 'slash', // The hash type to use
+    // A function to use to confirm navigation with the user
+    getUserConfirmation: (message, callback) => callback(window.confirm(message)),
+  })
 })
 
 const store = configureStore()
