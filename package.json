@@ -1,6 +1,13 @@
 {
-  "name": "typescript-example",
+  "name": "yarb-2018-10-05",
   "version": "1.0.0",
+  "author": "Oleg Smetanin <oleg@smetan.in>",
+  "description": "Yet Another React Boilerplate (YARB) by Oleg Smetanin 2018-10-05",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/olegsmetanin/yarb-2018-10-05.git"
+  },
+  "license": "MIT",
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
@@ -77,7 +84,7 @@
     "ts-jest": "23.10.2",
     "ts-loader": "3.5.0",
     "typescript": "3.0.3",
-    "url-loader": "0.5.9",
+    "url-loader": "1.0.1",
     "webpack": "3.5.1",
     "webpack-dev-server": "2.7.1",
     "webpack-manifest-plugin": "1.2.1",
