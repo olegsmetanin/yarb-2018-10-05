@@ -11,11 +11,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onLoad: (query: IBidsQuery) => {
-    dispatch(bidsLoad(query)).then(val => {
-      console.log('val', val)
-    })
-  }
+  onLoad: (query: IBidsQuery) => dispatch(bidsLoad(query))
 })
 
 export const BidListConnected = connect(
