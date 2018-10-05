@@ -5,6 +5,7 @@
 
 Features
 
+* CRUD App, list with infinite scroll, cards with tabbed design
 * [Typescript](https://github.com/Microsoft/TypeScript)
 * [React](https://github.com/facebook/react)
 * [Material UI component library](https://github.com/mui-org/material-ui)
@@ -13,7 +14,7 @@ Features
 * [Redux-thunk middleware](https://github.com/reduxjs/redux-thunk)
 * [Linq.js-based inMemory DB](https://github.com/mihaifm/linq)
 * [Data generator Faker.js](https://github.com/marak/Faker.js)
-* CRUD UX
+
 
 # To start
 
