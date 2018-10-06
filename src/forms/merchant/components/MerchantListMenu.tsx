@@ -26,16 +26,6 @@ const styles = (theme: Theme) =>
     grow: {
       flexGrow: 1
     },
-    menuButton: {
-      marginLeft: -12,
-      marginRight: 20
-    },
-    title: {
-      display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block'
-      }
-    },
     search: {
       position: 'relative',
       borderRadius: theme.shape.borderRadius,
@@ -96,8 +86,7 @@ export interface BaseMerchantListMenuProps {
 
 export class BaseMerchantListMenu extends React.Component<BaseMerchantListMenuProps & WithStyles<typeof styles>, {}> {
   state = {
-    anchorEl: null,
-    mobileMoreAnchorEl: null
+    anchorEl: null
   }
 
   handleProfileMenuOpen = event => {
@@ -112,10 +101,6 @@ export class BaseMerchantListMenu extends React.Component<BaseMerchantListMenuPr
     this.setState({ anchorEl: event.currentTarget })
   }
 
-  handleMobileMenuClose = () => {
-    this.setState({ mobileMoreAnchorEl: null })
-  }
-
   renderAddButton = (showText: boolean = false) => {
     return (
       <React.Fragment>
@@ -123,8 +108,9 @@ export class BaseMerchantListMenu extends React.Component<BaseMerchantListMenuPr
           <IconButton color="inherit">
             <AddIcon />
           </IconButton>
+
+          {showText && 'New merchant'}
         </Link>
-        {showText && <p>Create merchant</p>}
       </React.Fragment>
     )
   }

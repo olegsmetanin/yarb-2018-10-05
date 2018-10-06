@@ -11,45 +11,16 @@ import Typography from '@material-ui/core/Typography'
 
 const styles = (theme: Theme) =>
   createStyles({
-    root: {
-      backgroundColor: theme.palette.background.default,
-      marginTop: 128,
-      width: 'auto',
-      marginLeft: theme.spacing.unit * 3,
-      marginRight: theme.spacing.unit * 3,
-      [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-        width: 1100,
-        marginLeft: 'auto',
-        marginRight: 'auto'
-      }
-    },
-    body: {
-      backgroundColor: theme.palette.background.default,
-      width: 'auto',
-      marginLeft: theme.spacing.unit * 3,
-      marginRight: theme.spacing.unit * 3,
-      [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-        width: 1100,
-        marginLeft: 'auto',
-        marginRight: 'auto'
-      }
-    },
-    cardWrapper: {
-      width: 500
-    },
-    progress: {},
-    header: {
-      width: '100%',
-      backgroundColor: theme.palette.primary.dark
-    },
     chevronLeftIcon: {
       marginLeft: -32,
       color: theme.palette.common.white
+    },
+    title: {
     }
   })
 
 export interface BaseMerchantViewProps {
-  classes: any
+  // classes: any
 }
 
 export class BaseMerchantView extends React.Component<BaseMerchantViewProps & WithStyles<typeof styles>, {}> {

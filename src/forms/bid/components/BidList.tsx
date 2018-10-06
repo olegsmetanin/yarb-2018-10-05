@@ -26,10 +26,7 @@ const styles = (theme: Theme) =>
         marginRight: 'auto'
       }
     },
-    cardWrapper: {
-      width: 500
-    },
-    progress: {}
+    table: {},
   })
 
 export interface BaseBidListProps {
@@ -38,7 +35,7 @@ export interface BaseBidListProps {
 
   query: IBidsQuery
   state: IProcessState
-  classes: any
+  // classes: any
   onLoad(query: IBidsQuery): Promise<Array<IBid>>
 }
 

@@ -1,55 +1,18 @@
 import * as React from 'react'
 
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import { Theme, WithStyles, createStyles, withStyles } from '@material-ui/core/styles'
+import { WithStyles, createStyles, withStyles } from '@material-ui/core/styles'
 
 import AppBar from '@material-ui/core/AppBar'
 import { BidListConnected } from 'forms/bid/containers/BidListConnected'
-// import { History } from 'history'
 import { MainMenu } from 'layout/menu/MainMenu'
 import { MerchantMenuHeaderConnected } from 'forms/merchant/containers/MerchantMenuHeaderConnected'
 import { MerchantOverviewConnected } from 'forms/merchant/containers/MerchantOverviewConnected'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 
-// import { withRouter } from 'react-router-dom'
-
-const styles = (theme: Theme) =>
+const styles = () =>
   createStyles({
-    root: {
-      backgroundColor: theme.palette.background.default,
-      marginTop: 128,
-      width: 'auto',
-      marginLeft: theme.spacing.unit * 3,
-      marginRight: theme.spacing.unit * 3,
-      [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-        width: 1100,
-        marginLeft: 'auto',
-        marginRight: 'auto'
-      }
-    },
-    body: {
-      backgroundColor: theme.palette.background.default,
-      width: 'auto',
-      marginLeft: theme.spacing.unit * 3,
-      marginRight: theme.spacing.unit * 3,
-      [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-        width: 1100,
-        marginLeft: 'auto',
-        marginRight: 'auto'
-      }
-    },
-    cardWrapper: {
-      width: 500
-    },
-    progress: {},
-    header: {
-      width: '100%',
-      backgroundColor: theme.palette.primary.dark
-    },
-    tab: {
-      flexGrow: 1
-    },
     appBar: {
       marginTop: 48
     },
@@ -64,7 +27,7 @@ type MatchParams = {
 }
 
 export interface BaseMerchantViewProps {
-  classes: any
+  // classes: any
 }
 
 export interface BaseMerchantViewState {

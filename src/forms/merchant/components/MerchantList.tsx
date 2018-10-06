@@ -26,13 +26,13 @@ const styles = (theme: Theme) =>
     cardWrapper: {
       width: 500
     },
-    progress: {}
+    cardGrid: {},
   })
 
 export interface BaseMerchantListProps {
   merchants: Array<IMerchant>
   state: IProcessState
-  classes: any
+  // classes: any
   onLoad(query: IMerchantsQuery): Promise<Array<IMerchant>>
 
   onDelete(id: string): Promise<void>

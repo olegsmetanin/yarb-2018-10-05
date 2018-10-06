@@ -3,7 +3,6 @@ import * as React from 'react'
 import { Theme, WithStyles, createStyles, withStyles } from '@material-ui/core/styles'
 
 import Button from '@material-ui/core/Button'
-// import Grid from '@material-ui/core/Grid'
 import { IMerchantCreateRequest } from 'entity/api'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'

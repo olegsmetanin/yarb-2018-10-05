@@ -25,16 +25,6 @@ const styles = (theme: Theme) =>
     grow: {
       flexGrow: 1
     },
-    menuButton: {
-      marginLeft: -12,
-      marginRight: 20
-    },
-    title: {
-      display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block'
-      }
-    },
     search: {
       position: 'relative',
       borderRadius: theme.shape.borderRadius,
@@ -89,13 +79,12 @@ const styles = (theme: Theme) =>
   })
 
 export interface BaseBidListMenuProps {
-  classes: any
+  // classes: any
 }
 
 export class BaseBidListMenu extends React.Component<BaseBidListMenuProps & WithStyles<typeof styles>, {}> {
   state = {
     anchorEl: null,
-    mobileMoreAnchorEl: null
   }
 
   handleProfileMenuOpen = event => {
@@ -108,10 +97,6 @@ export class BaseBidListMenu extends React.Component<BaseBidListMenuProps & With
 
   handleMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget })
-  }
-
-  handleMobileMenuClose = () => {
-    this.setState({ mobileMoreAnchorEl: null })
   }
 
   renderAddButton = () => {

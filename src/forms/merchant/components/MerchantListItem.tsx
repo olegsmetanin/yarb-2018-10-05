@@ -20,29 +20,33 @@ const styles = () =>
       width: 128,
       height: 128
     },
-    cardwrap: {
+    card: {},
+    cardWrap: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'flex-start'
     },
-    cardText: {
+    cardTextBlock: {
       marginLeft: 16
-    },
-    email: {
-      marginTop: 8
     },
     title: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center'
     },
+    name: {},
+    email: {
+      marginTop: 8
+    },
+    phone: {},
+    created: {},
     menu: {
       marginLeft: 16
-    }
+    },
   })
 
 export interface BaseMerchantListItemProps {
-  classes: any
+  // classes: any
   value?: IMerchant
   onDelete(id: string): Promise<void>
 }
@@ -108,11 +112,11 @@ export class BaseMerchantListItem extends React.Component<BaseMerchantListItemPr
       <div className={classes.root}>
         <Card className={classes.card}>
           <CardContent>
-            <div className={classes.cardwrap}>
+            <div className={classes.cardWrap}>
               <Link to={'/merchants/' + value.id}>
                 <Avatar src={value.avatarUrl} className={classes.avatar} />
               </Link>
-              <div className={classes.cardText}>
+              <div className={classes.cardTextBlock}>
                 <div className={classes.title}>
                   <div>
                     <Link to={'/merchants/' + value.id}>
@@ -127,10 +131,10 @@ export class BaseMerchantListItem extends React.Component<BaseMerchantListItemPr
                 <Typography className={classes.email} variant="subheading" color="inherit" noWrap>
                   {value.email}
                 </Typography>
-                <Typography className={classes.name} variant="subheading" color="inherit" noWrap>
+                <Typography className={classes.phone} variant="subheading" color="inherit" noWrap>
                   {value.phone}
                 </Typography>
-                <Typography className={classes.name} variant="body1" color="inherit" noWrap>
+                <Typography className={classes.created} variant="body1" color="inherit" noWrap>
                   Created {value.created}
                 </Typography>
                 <div />

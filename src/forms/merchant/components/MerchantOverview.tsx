@@ -33,14 +33,7 @@ const styles = (theme: Theme) =>
       }
     },
     paper: {},
-    cardWrapper: {
-      width: 500
-    },
-    progress: {},
-    header: {
-      width: '100%',
-      backgroundColor: theme.palette.primary.dark
-    },
+    menu: {},
     avatar: {
       width: 128,
       height: 128
@@ -67,7 +60,11 @@ const styles = (theme: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center'
-    }
+    },
+    name: {},
+    email: {},
+    phone: {},
+    created: {},
   })
 
 export interface BaseMerchantViewProps {
@@ -75,7 +72,7 @@ export interface BaseMerchantViewProps {
   merchant: IMerchant
 
   state: IProcessState
-  classes: any
+  // classes: any
   onLoad(query: IMerchantQuery): Promise<IMerchant>
   onSave(value: IMerchant): Promise<void>
 
@@ -211,10 +208,10 @@ export class BaseMerchantView extends React.Component<
                     <Typography className={classes.email} variant="subheading" color="inherit" noWrap>
                       {orig_merchant.email}
                     </Typography>
-                    <Typography className={classes.name} variant="subheading" color="inherit" noWrap>
+                    <Typography className={classes.phone} variant="subheading" color="inherit" noWrap>
                       {orig_merchant.phone}
                     </Typography>
-                    <Typography className={classes.name} variant="body1" color="inherit" noWrap>
+                    <Typography className={classes.created} variant="body1" color="inherit" noWrap>
                       Created {orig_merchant.created}
                     </Typography>
                   </div>
