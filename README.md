@@ -5,7 +5,7 @@
 
 Features
 
-* CRUD App, list with infinite scroll, cards with tabbed design
+* CRUD App, lists with infinite scroll, cards with tabbed design
 * [Typescript](https://github.com/Microsoft/TypeScript)
 * [React](https://github.com/facebook/react)
 * [Material UI component library](https://github.com/mui-org/material-ui)
