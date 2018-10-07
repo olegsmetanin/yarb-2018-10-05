@@ -64,19 +64,22 @@ const styles = (theme: Theme) =>
     name: {},
     email: {},
     phone: {},
-    created: {},
+    created: {}
   })
 
 export interface BaseMerchantViewProps {
   merchantId: string
   merchant: IMerchant
 
-  state: IProcessState
+  process: IProcessState
   // classes: any
   onLoad(query: IMerchantQuery): Promise<IMerchant>
+
   onSave(value: IMerchant): Promise<void>
 
   onDelete(id: string): Promise<void>
+
+  onValidate(value: Partial<IMerchant>, fieldName?: string): Promise<{ [P in keyof IMerchant]?: string }>
 }
 
 interface BaseMerchantViewState {
@@ -84,6 +87,8 @@ interface BaseMerchantViewState {
   isDirty: boolean
 
   anchorEl?: HTMLElement
+
+  errors: Partial<IMerchant>
 }
 
 export class BaseMerchantView extends React.Component<
@@ -92,7 +97,7 @@ export class BaseMerchantView extends React.Component<
 > {
   constructor(props) {
     super(props)
-    this.state = this.init(props)
+    this.state = this.initState(props)
   }
 
   componentDidMount() {
@@ -105,29 +110,46 @@ export class BaseMerchantView extends React.Component<
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.merchant && !newProps.state.isSaving) {
-      this.setState(this.init(newProps))
+    if (newProps.merchant && !newProps.process.isSaving) {
+      this.setState(this.initState(newProps))
     }
   }
 
-  init = newProps => ({
+  initState = newProps => ({
     merchant: newProps.merchant ? JSON.parse(JSON.stringify(newProps.merchant)) : null,
-    isDirty: false
+    isDirty: false,
+    errors: {}
   })
 
-  onChange = e => {
+  handleOnChange = e => {
     this.setState({
       merchant: { ...this.state.merchant, [e.target.name]: e.target.value },
       isDirty: true
     })
   }
 
-  onSave = () => {
-    this.props.onSave(this.state.merchant)
+  handleOnSave = () => {
+    this.handleOnValidate()
+      .then(() => this.props.onSave(this.state.merchant))
+      .catch(() => {})
   }
 
-  onCancel = () => {
-    this.setState(this.init(this.props))
+  handleOnCancel = () => {
+    this.setState(this.initState(this.props))
+  }
+
+  handleOnValidate = (fieldName?: string) => {
+    return this.props
+      .onValidate(this.state.merchant, fieldName)
+      .then(() => this.setState(prev => ({ errors: { ...prev.errors, [fieldName]: null } })))
+      .catch(errors => {
+        this.setState(prev => ({ ...prev, errors: { ...prev.errors, ...errors } }))
+        throw errors
+      })
+  }
+
+  handleOnBlur = e => {
+    this.handleOnValidate(e.target.name).catch(() => {})
   }
 
   handleOpenMenu = event => {
@@ -179,10 +201,10 @@ export class BaseMerchantView extends React.Component<
   }
 
   render() {
-    const { classes, state, merchant: orig_merchant } = this.props
-    const { merchant, isDirty } = this.state
+    const { classes, process, merchant: orig_merchant } = this.props
+    const { merchant, isDirty, errors } = this.state
 
-    if (state && (state.isLoading || state.isDeleting)) {
+    if (process && (process.isLoading || process.isDeleting)) {
       return (
         <div className={classes.root}>
           <Loader />
@@ -220,26 +242,28 @@ export class BaseMerchantView extends React.Component<
                   <div className={classes.form}>
                     <TextField
                       required
-                      id="firstName"
+                      id="firstname"
                       name="firstname"
                       label="First name"
                       fullWidth
                       autoComplete="fname"
                       value={this.state.merchant.firstname}
-                      onChange={this.onChange}
+                      onChange={this.handleOnChange}
+                      onBlur={this.handleOnBlur}
+                      {...(errors.firstname ? { helperText: errors.firstname, error: true } : {})}
                     />
-
                     <TextField
                       required
-                      id="lastName"
+                      id="lastname"
                       name="lastname"
                       label="Last name"
                       fullWidth
                       autoComplete="lname"
                       value={this.state.merchant.lastname}
-                      onChange={this.onChange}
+                      onChange={this.handleOnChange}
+                      onBlur={this.handleOnBlur}
+                      {...(errors.lastname ? { helperText: errors.lastname, error: true } : {})}
                     />
-
                     <TextField
                       required
                       id="email"
@@ -248,9 +272,10 @@ export class BaseMerchantView extends React.Component<
                       fullWidth
                       autoComplete="email"
                       value={this.state.merchant.email}
-                      onChange={this.onChange}
+                      onChange={this.handleOnChange}
+                      onBlur={this.handleOnBlur}
+                      {...(errors.email ? { helperText: errors.email, error: true } : {})}
                     />
-
                     <TextField
                       required
                       id="phone"
@@ -259,16 +284,18 @@ export class BaseMerchantView extends React.Component<
                       fullWidth
                       autoComplete="phone"
                       value={this.state.merchant.phone}
-                      onChange={this.onChange}
+                      onChange={this.handleOnChange}
+                      onBlur={this.handleOnBlur}
+                      {...(errors.phone ? { helperText: errors.phone, error: true } : {})}
                     />
-
                     <FormControlLabel
                       control={
                         <Checkbox
                           color="secondary"
                           name="hasPremium"
                           checked={this.state.merchant.hasPremium}
-                          onChange={this.onChange}
+                          onChange={this.handleOnChange}
+                          onBlur={this.handleOnBlur}
                         />
                       }
                       label="Has Premium"
@@ -281,18 +308,18 @@ export class BaseMerchantView extends React.Component<
                           variant="raised"
                           color="primary"
                           className={classes.submit}
-                          onClick={this.onSave}
-                          disabled={state.isSaving}
+                          onClick={this.handleOnSave}
+                          disabled={process.isSaving}
                         >
-                          {state.isSaving ? 'Saving...' : 'Save'}
+                          {process.isSaving ? 'Saving...' : 'Save'}
                         </Button>
                         <Button
                           type="submit"
                           fullWidth
                           variant="outlined"
                           className={classes.submit}
-                          onClick={this.onCancel}
-                          disabled={state.isSaving}
+                          onClick={this.handleOnCancel}
+                          disabled={process.isSaving}
                         >
                           Cancel
                         </Button>

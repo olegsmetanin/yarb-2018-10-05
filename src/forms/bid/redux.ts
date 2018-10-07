@@ -63,12 +63,14 @@ export function bidsReducer(state = bidsDefaultState, action: FSA<any, any>) {
         ...state,
         data: [...data, ...action.payload],
         query: action.meta.query,
-        state: { isLoading: false, error: null }
+        state: { isLoading: false },
+        errors: null
       }
     case LIST_LOAD_FAILED:
       return {
         ...state,
-        state: { isLoading: false, error: action.payload }
+        state: { isLoading: false },
+        errors: action.payload
       }
 
     default:

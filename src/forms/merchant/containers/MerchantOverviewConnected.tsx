@@ -1,10 +1,12 @@
 import { IMerchant, IMerchantQuery } from 'entity/api'
 import {
   merchantDelete,
+  merchantErrorsSelector,
   merchantLoad,
+  merchantProcessSelector,
   merchantSave,
   merchantSelector,
-  merchantStateSelector
+  merchantValidate
 } from 'forms/merchant/redux'
 
 import { MerchantOverview } from 'forms/merchant/components/MerchantOverview'
@@ -13,7 +15,8 @@ import { connect } from 'react-redux'
 
 const mapStateToProps = state => ({
   merchant: merchantSelector(state),
-  state: merchantStateSelector(state)
+  process: merchantProcessSelector(state),
+  errors: merchantErrorsSelector(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -21,7 +24,8 @@ const mapDispatchToProps = dispatch => ({
   onSave: (value: IMerchant) => dispatch(merchantSave(value)),
   onDelete: (id: string) => {
     dispatch(merchantDelete(id)).then(() => appConfig.history.push('/merchants'))
-  }
+  },
+  onValidate: (value: Partial<IMerchant>, fieldName?: string) => dispatch(merchantValidate(value, fieldName))
 })
 
 export const MerchantOverviewConnected = connect(

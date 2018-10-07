@@ -26,12 +26,12 @@ const styles = (theme: Theme) =>
     cardWrapper: {
       width: 500
     },
-    cardGrid: {},
+    cardGrid: {}
   })
 
 export interface BaseMerchantListProps {
   merchants: Array<IMerchant>
-  state: IProcessState
+  process: IProcessState
   // classes: any
   onLoad(query: IMerchantsQuery): Promise<Array<IMerchant>>
 
@@ -72,7 +72,7 @@ export class BaseMerchantList extends React.Component<BaseMerchantListProps & Wi
     if (windowBottom >= docHeight) {
       // On the bottom of the page!
       const now = new Date().getTime()
-      if (!this.props.state.isLoading && now - this.lastLoad > 300) {
+      if (!this.props.process.isLoading && now - this.lastLoad > 300) {
         this.props
           .onLoad({
             sort: 'created',
@@ -84,7 +84,7 @@ export class BaseMerchantList extends React.Component<BaseMerchantListProps & Wi
   }
 
   render() {
-    const { classes, merchants, state } = this.props
+    const { classes, merchants, process } = this.props
 
     return (
       <div className={classes.root}>
@@ -99,7 +99,7 @@ export class BaseMerchantList extends React.Component<BaseMerchantListProps & Wi
               </Grid>
             ))}
         </Grid>
-        {state && state.isLoading && <Loader style={{ height: merchants ? '64px' : '200px' }} />}
+        {process && process.isLoading && <Loader style={{ height: merchants ? '64px' : '200px' }} />}
       </div>
     )
   }

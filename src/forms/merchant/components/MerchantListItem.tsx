@@ -42,7 +42,7 @@ const styles = () =>
     created: {},
     menu: {
       marginLeft: 16
-    },
+    }
   })
 
 export interface BaseMerchantListItemProps {

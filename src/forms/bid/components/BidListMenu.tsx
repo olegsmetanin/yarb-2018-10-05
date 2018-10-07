@@ -84,7 +84,7 @@ export interface BaseBidListMenuProps {
 
 export class BaseBidListMenu extends React.Component<BaseBidListMenuProps & WithStyles<typeof styles>, {}> {
   state = {
-    anchorEl: null,
+    anchorEl: null
   }
 
   handleProfileMenuOpen = event => {

@@ -28,7 +28,7 @@ const styles = (theme: Theme) =>
 export interface BaseMerchantMenuHeaderProps {
   merchantId: string
   merchant: IMerchant
-  state: IProcessState
+  process: IProcessState
   classes: any
   onLoad(query: IMerchantQuery): Promise<IMerchant>
 }
@@ -47,7 +47,7 @@ export class BaseMerchantMenuHeader extends React.Component<
   }
 
   render() {
-    const { classes, merchant, merchantId, state } = this.props
+    const { classes, merchant, merchantId, process } = this.props
 
     return (
       <React.Fragment>
@@ -58,7 +58,7 @@ export class BaseMerchantMenuHeader extends React.Component<
         </Link>
         {merchant && merchant.id === merchantId && <Avatar src={merchant.avatarUrl} className={classes.avatar} />}
         <Typography variant="title" color="inherit" noWrap className={classes.title}>
-          {state && state.isLoading ? '...' : merchant ? merchant.firstname + ' ' + merchant.lastname : null}
+          {process && process.isLoading ? '...' : merchant ? merchant.firstname + ' ' + merchant.lastname : null}
         </Typography>
       </React.Fragment>
     )

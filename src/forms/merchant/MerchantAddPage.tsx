@@ -15,8 +15,7 @@ const styles = (theme: Theme) =>
       marginLeft: -32,
       color: theme.palette.common.white
     },
-    title: {
-    }
+    title: {}
   })
 
 export interface BaseMerchantViewProps {

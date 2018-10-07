@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 
 const mapStateToProps = state => ({
   merchants: merchantsSelector(state),
-  state: merchantsStateSelector(state)
+  process: merchantsStateSelector(state)
 })
 
 const mapDispatchToProps = dispatch => ({

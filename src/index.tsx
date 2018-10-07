@@ -27,7 +27,7 @@ setAppConfig({
     basename: '', // The base URL of the app
     hashType: 'slash', // The hash type to use
     // A function to use to confirm navigation with the user
-    getUserConfirmation: (message, callback) => callback(window.confirm(message)),
+    getUserConfirmation: (message, callback) => callback(window.confirm(message))
   })
 })
 

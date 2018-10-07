@@ -43,6 +43,11 @@ const styles = (theme: Theme) =>
 export interface BaseMerchantAddProps {
   classes: any
   onCreate(createRequest: IMerchantCreateRequest): Promise<string>
+
+  onValidate(
+    value: Partial<IMerchantCreateRequest>,
+    fieldName?: string
+  ): Promise<{ [P in keyof IMerchantCreateRequest]?: string }>
 }
 
 interface BaseMerchantAddState {
@@ -50,10 +55,9 @@ interface BaseMerchantAddState {
 
   process: {
     isCreating: boolean
-    errors: {
-      [field: string]: string
-    }
   }
+
+  errors: Partial<IMerchantCreateRequest>
 }
 
 export class BaseMerchantAdd extends React.Component<
@@ -71,42 +75,51 @@ export class BaseMerchantAdd extends React.Component<
         phone: ''
       },
       process: {
-        isCreating: false,
-        errors: {}
-      }
+        isCreating: false
+      },
+      errors: {}
     }
   }
 
-  isValid: boolean = true
-
-  onChange = e => {
+  handleOnChange = e => {
     this.setState({
       merchant: { ...this.state.merchant, [e.target.name]: e.target.value }
     })
   }
 
-  onBlur = () => {}
-
-  onCreate = () => {
-    if (this.isValid) {
-      this.setState({ process: { ...this.state.process, isCreating: true } })
-      this.props.onCreate(this.state.merchant).catch(error => {
-        this.setState({
-          process: {
-            isCreating: false,
-            errors: {
-              ...this.state.process.errors,
-              global: error
-            }
-          }
+  handleOnCreate = () => {
+    this.handleOnValidate()
+      .then(() => {
+        this.setState({ process: { isCreating: true } })
+        this.props.onCreate(this.state.merchant).catch(errors => {
+          this.setState({
+            process: {
+              isCreating: false
+            },
+            errors
+          })
         })
       })
-    }
+      .catch(() => {})
+  }
+
+  handleOnValidate = (fieldName?: string) => {
+    return this.props
+      .onValidate(this.state.merchant, fieldName)
+      .then(() => this.setState(prev => ({ errors: { ...prev.errors, [fieldName]: null } })))
+      .catch(errors => {
+        this.setState(prev => ({ ...prev, errors: { ...prev.errors, ...errors } }))
+        throw errors
+      })
+  }
+
+  handleOnBlur = e => {
+    this.handleOnValidate(e.target.name).catch(() => {})
   }
 
   render() {
     const { classes } = this.props
-    const { merchant, process } = this.state
+    const { merchant, process, errors } = this.state
 
     return (
       <React.Fragment>
@@ -124,11 +137,10 @@ export class BaseMerchantAdd extends React.Component<
                 fullWidth
                 autoComplete="fname"
                 value={merchant.firstname}
-                error={!!process.errors['firstname']}
-                onChange={this.onChange}
-                onBlur={this.onBlur}
+                onChange={this.handleOnChange}
+                onBlur={this.handleOnBlur}
+                {...(errors.firstname ? { helperText: errors.firstname, error: true } : {})}
               />
-
               <TextField
                 required
                 id="lastName"
@@ -137,11 +149,10 @@ export class BaseMerchantAdd extends React.Component<
                 fullWidth
                 autoComplete="lname"
                 value={merchant.lastname}
-                error={!!process.errors['lastname']}
-                onChange={this.onChange}
-                onBlur={this.onBlur}
+                onChange={this.handleOnChange}
+                onBlur={this.handleOnBlur}
+                {...(errors.lastname ? { helperText: errors.lastname, error: true } : {})}
               />
-
               <TextField
                 required
                 id="email"
@@ -150,11 +161,10 @@ export class BaseMerchantAdd extends React.Component<
                 fullWidth
                 autoComplete="email"
                 value={merchant.email}
-                onChange={this.onChange}
-                error={!!process.errors['email']}
-                onBlur={this.onBlur}
+                onChange={this.handleOnChange}
+                onBlur={this.handleOnBlur}
+                {...(errors.email ? { helperText: errors.email, error: true } : {})}
               />
-              {process.errors['email'] || null}
               <TextField
                 required
                 id="phone"
@@ -163,11 +173,10 @@ export class BaseMerchantAdd extends React.Component<
                 fullWidth
                 autoComplete="phone"
                 value={merchant.phone}
-                error={!!process.errors['phone']}
-                onChange={this.onChange}
-                onBlur={this.onBlur}
+                onChange={this.handleOnChange}
+                onBlur={this.handleOnBlur}
+                {...(errors.phone ? { helperText: errors.phone, error: true } : {})}
               />
-              {process.errors['phone'] || null}
               <div className={classes.actionPanel}>
                 <Button
                   type="submit"
@@ -175,12 +184,12 @@ export class BaseMerchantAdd extends React.Component<
                   variant="raised"
                   color="primary"
                   className={classes.submit}
-                  onClick={this.onCreate}
+                  onClick={this.handleOnCreate}
                   disabled={process.isCreating}
                 >
                   {process.isCreating ? 'Creating...' : 'Create'}
                 </Button>
-                {process.errors['global'] || null}
+                {errors['global'] || null}
               </div>
             </div>
           </Paper>

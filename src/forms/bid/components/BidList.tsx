@@ -26,7 +26,7 @@ const styles = (theme: Theme) =>
         marginRight: 'auto'
       }
     },
-    table: {},
+    table: {}
   })
 
 export interface BaseBidListProps {

@@ -1,7 +1,11 @@
 import { IMerchant, IMerchantCreateRequest, IMerchantQuery, IMerchantsQuery } from 'entity/api'
 
 import { FSA } from 'redux/api'
+import { Validator } from 'utils/Validator'
 import { appConfig } from 'config/appConfig'
+import { schema } from './validation'
+
+// import { isNotContainsWhiteSpace } from 'util/validation'
 
 // Action types
 const LIST_LOADING = 'merchants/LOADING'
@@ -68,8 +72,8 @@ export function merchantUpdate(data) {
   return { type: ITEM_UPDATE, payload: data }
 }
 
-export function merchantFailed(error) {
-  return { type: ITEM_FAILED, payload: error, error: true }
+export function merchantFailed(errors) {
+  return { type: ITEM_FAILED, payload: errors, error: true }
 }
 
 export function merchantLoad(query: IMerchantQuery) {
@@ -122,9 +126,23 @@ export function merchantDelete(id: string) {
       })
       .then(() => dispatch(merchantDeleted(id)))
       .catch(err => {
-        console.log('errr', err)
         dispatch(merchantFailed(err))
       })
+  }
+}
+
+export function merchantValidate(value: object, fieldName?: string) {
+  return async () => {
+    const validator = new Validator().addSchema(schema)
+    const ref = fieldName ? `schema#${fieldName}` : `schema`
+    const { isValid, errors } = validator.validate({ $ref: ref }, value)
+    return new Promise((resolve, reject) => {
+      if (isValid) {
+        resolve(errors)
+      } else {
+        reject(errors)
+      }
+    })
   }
 }
 
@@ -178,10 +196,13 @@ export function merchantsReducer(state = merchantsDefaultState, action: FSA<any,
 
 // Item selectors and reducer
 export const merchantSelector = state => state.merchant.data
-export const merchantStateSelector = state => state.merchant.state
+
+export const merchantProcessSelector = state => state.merchant.process
+
+export const merchantErrorsSelector = state => state.merchant.errors
 
 const merchantDefaultState = {
-  state: {
+  process: {
     isLoading: true
   }
 }
@@ -189,21 +210,23 @@ const merchantDefaultState = {
 export function merchantReducer(state = merchantDefaultState, action: FSA<any, any>) {
   switch (action.type) {
     case ITEM_LOADING:
-      return Object.assign({}, state, { state: { isLoading: true } })
+      return Object.assign({}, state, { process: { isLoading: true } })
     case ITEM_SAVING:
-      return Object.assign({}, state, { state: { isSaving: true } })
+      return Object.assign({}, state, { process: { isSaving: true } })
     case ITEM_DELETING:
-      return Object.assign({}, state, { state: { isDeleting: true } })
+      return Object.assign({}, state, { process: { isDeleting: true } })
     case ITEM_UPDATE:
       return Object.assign({}, state, {
         data: action.payload,
-        state: { isLoading: false, isSaving: false, error: null }
+        process: { isLoading: false, isSaving: false },
+        errors: {}
       })
     case ITEM_DELETE:
       return { state: { isLoading: true } }
     case ITEM_FAILED:
       return Object.assign({}, state, {
-        state: { isLoading: false, error: action.payload }
+        process: { isLoading: false },
+        errors: action.payload
       })
     default:
       return state
