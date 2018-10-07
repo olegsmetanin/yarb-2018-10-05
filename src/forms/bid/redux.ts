@@ -45,7 +45,7 @@ export const bidsSelector = state => state.bidList.data
 
 export const bidsQuerySelector = state => state.bidList.query
 
-export const bidsStateSelector = state => state.bidList.state
+export const bidsProcessSelector = state => state.bidList.process
 
 const bidsDefaultState = {
   state: {
@@ -56,20 +56,20 @@ const bidsDefaultState = {
 export function bidsReducer(state = bidsDefaultState, action: FSA<any, any>) {
   switch (action.type) {
     case LIST_LOADING:
-      return Object.assign({}, state, { state: { isLoading: true } })
+      return Object.assign({}, state, { process: { isLoading: true } })
     case LIST_UPDATE:
       const data = action.meta.query.after ? state['data'] : []
       return {
         ...state,
         data: [...data, ...action.payload],
         query: action.meta.query,
-        state: { isLoading: false },
+        process: { isLoading: false },
         errors: null
       }
     case LIST_LOAD_FAILED:
       return {
         ...state,
-        state: { isLoading: false },
+        process: { isLoading: false },
         errors: action.payload
       }
 

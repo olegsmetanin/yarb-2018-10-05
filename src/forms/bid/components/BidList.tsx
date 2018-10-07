@@ -34,7 +34,7 @@ export interface BaseBidListProps {
   bids: Array<IBid>
 
   query: IBidsQuery
-  state: IProcessState
+  process: IProcessState
   // classes: any
   onLoad(query: IBidsQuery): Promise<Array<IBid>>
 }
@@ -79,7 +79,7 @@ export class BaseBidList extends React.Component<BaseBidListProps & WithStyles<t
     const windowBottom = windowHeight + window.pageYOffset
     if (windowBottom >= docHeight) {
       // On the bottom of the page!
-      if (!this.props.state.isLoading) {
+      if (!this.props.process.isLoading) {
         this.props.onLoad({
           merchantId: this.props.merchantId,
           sort: 'created',
@@ -94,7 +94,7 @@ export class BaseBidList extends React.Component<BaseBidListProps & WithStyles<t
   }
 
   render() {
-    const { classes, bids, state } = this.props
+    const { classes, bids, process } = this.props
     // <BidListMenu />
     return (
       <div className={classes.root}>
@@ -125,7 +125,7 @@ export class BaseBidList extends React.Component<BaseBidListProps & WithStyles<t
             </React.Fragment>
           </TableBody>
         </Table>
-        {state && state.isLoading && <Loader style={{ height: bids ? '64px' : '200px' }} />}
+        {process && process.isLoading && <Loader style={{ height: bids ? '64px' : '200px' }} />}
       </div>
     )
   }
